@@ -1,0 +1,1722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkiLabs · Where Science Meets the Spirit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a5cff;
+            --primary-soft: #e9ecff;
+            --primary-dark: #0043c6;
+            --bg: #f2f5fd;
+            --sidebar-bg: rgba(255,255,255,0.75);
+            --card-bg: rgba(255,255,255,0.8);
+            --border-light: rgba(226, 232, 240, 0.6);
+            --text-primary: #0b1f3a;
+            --text-secondary: #3f506e;
+            --text-soft: #617388;
+            --glass-shadow: 0 20px 35px -10px rgba(0,30,60,0.15);
+            --transition: all 0.25s ease;
+            
+            /* AI-specific colors */
+            --ai-bg: #0a0c14;
+            --ai-surface: #141a24;
+            --ai-surface-light: #1e2635;
+            --ai-accent: #00ffc3;
+            --ai-accent-dim: rgba(0, 255, 195, 0.2);
+            --ai-text: #e0f2fe;
+            --ai-text-dim: #8a9bb5;
+            --ai-border: #2a3442;
+            --ai-glow: 0 0 20px rgba(0, 255, 195, 0.2);
+            --ai-gradient: linear-gradient(135deg, #00ffc3, #00b8ff);
+            
+            /* Spiritual accent */
+            --spiritual-gold: #d4af37;
+            --spiritual-glow: rgba(212, 175, 55, 0.2);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            backdrop-filter: blur(2px);
+        }
+
+        /* ----- AUTH SCREEN WITH LOGO ----- */
+        #auth-screen {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(145deg, #ffffff 0%, #f0f5ff 100%);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+            transition: opacity 0.5s ease;
+        }
+
+        .auth-card {
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 48px;
+            padding: 48px 40px;
+            width: 450px;
+            box-shadow: var(--glass-shadow), 0 0 0 1px rgba(255,255,255,0.5);
+            border: 1px solid rgba(255,255,255,0.6);
+            text-align: center;
+            animation: float-in 0.5s ease;
+        }
+
+        .logo-container {
+            margin-bottom: 32px;
+            position: relative;
+        }
+
+        .logo-image {
+            width: 180px;
+            height: auto;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 10px 15px rgba(26, 92, 255, 0.2));
+        }
+
+        .logo-tagline {
+            font-size: 1.1rem;
+            font-weight: 500;
+            background: linear-gradient(135deg, var(--primary), #8888ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+            font-style: italic;
+        }
+
+        .auth-card input {
+            width: 100%;
+            padding: 16px 20px;
+            font-size: 1rem;
+            background: rgba(255,255,255,0.5);
+            border: 1.5px solid rgba(26, 92, 255, 0.2);
+            border-radius: 32px;
+            outline: none;
+            font-weight: 500;
+            transition: var(--transition);
+            margin-bottom: 18px;
+            color: var(--text-primary);
+        }
+
+        .auth-card input:focus {
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(26,92,255,0.15);
+        }
+
+        .auth-card .btn {
+            background: var(--primary);
+            border: none;
+            color: white;
+            padding: 16px 32px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            width: 100%;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 8px 20px -8px var(--primary);
+        }
+
+        .auth-card .btn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.02);
+        }
+
+        /* ----- SIDEBAR WITH LOGO ----- */
+        #sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255,255,255,0.5);
+            display: none;
+            flex-direction: column;
+            padding: 28px 18px;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.02);
+        }
+
+        .sidebar-logo {
+            text-align: center;
+            margin-bottom: 32px;
+            padding: 0 10px;
+        }
+
+        .sidebar-logo-img {
+            width: 140px;
+            height: auto;
+            margin-bottom: 4px;
+        }
+
+        .sidebar-tagline {
+            font-size: 0.75rem;
+            color: var(--text-soft);
+            font-style: italic;
+            letter-spacing: 0.5px;
+            opacity: 0.8;
+        }
+
+        .nav-item {
+            padding: 14px 18px;
+            margin-bottom: 6px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.6);
+            border-color: rgba(255,255,255,0.7);
+            color: var(--primary);
+        }
+
+        .nav-item.active {
+            background: white;
+            border-color: white;
+            color: var(--primary);
+            box-shadow: 0 10px 15px -10px rgba(0,0,0,0.2);
+        }
+
+        .nav-item i {
+            width: 24px;
+            text-align: center;
+        }
+
+        .ai-btn {
+            margin-top: auto;
+            background: linear-gradient(145deg, #102a4c, #0a1a2f);
+            border: 1px solid var(--ai-accent-dim);
+            color: var(--ai-accent);
+            font-family: 'Fira Code', monospace;
+            font-weight: 500;
+            padding: 18px 12px;
+            border-radius: 24px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 0 1px rgba(0,255,200,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0,255,195,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .ai-btn:hover::before {
+            left: 100%;
+        }
+
+        .ai-btn:hover {
+            background: #1d3b5e;
+            color: #aaffdd;
+            border-color: #4df2ff;
+            box-shadow: 0 0 20px rgba(0,255,195,0.3);
+        }
+
+        .ai-btn.active {
+            background: #1d3b5e;
+            border-color: var(--ai-accent);
+            box-shadow: 0 0 20px rgba(0,255,195,0.3);
+        }
+
+        /* ----- MAIN WRAPPER ----- */
+        #main-wrapper {
+            flex: 1;
+            display: none;
+            flex-direction: column;
+            background: transparent;
+        }
+
+        header {
+            padding: 18px 40px;
+            background: rgba(255,255,255,0.4);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255,255,255,0.8);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 0 0 8px 0;
+            border-radius: 0 0 28px 28px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+        }
+
+        #greeting {
+            font-weight: 700;
+            font-size: 1.2rem;
+            background: rgba(255,255,255,0.5);
+            padding: 6px 22px;
+            border-radius: 40px;
+            backdrop-filter: blur(5px);
+            color: var(--text-primary);
+            border: 1px solid white;
+        }
+
+        .logout-btn {
+            border: none;
+            background: rgba(255,255,255,0.4);
+            backdrop-filter: blur(6px);
+            padding: 10px 24px;
+            border-radius: 32px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+        }
+
+        .logout-btn:hover {
+            background: white;
+            color: var(--primary);
+            border-color: white;
+            box-shadow: 0 6px 15px -10px black;
+        }
+
+        .content-area {
+            flex: 1;
+            padding: 32px 40px;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+
+        /* views */
+        .view-section {
+            display: none;
+            animation: slideUp 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .view-section.active {
+            display: block;
+        }
+
+        @keyframes slideUp {
+            0% { opacity: 0; transform: translateY(18px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float-in {
+            0% { opacity: 0; transform: scale(0.96); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* cards & content */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 28px;
+            border-radius: 32px;
+            border: 1px solid rgba(255,255,255,0.7);
+            box-shadow: var(--glass-shadow);
+            transition: var(--transition);
+        }
+
+        h2 {
+            font-weight: 700;
+            font-size: 2rem;
+            letter-spacing: -0.02em;
+            margin-bottom: 24px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn {
+            background: var(--primary);
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 12px 28px;
+            border-radius: 36px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            box-shadow: 0 10px 18px -12px var(--primary);
+            transition: var(--transition);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-small {
+            background: rgba(26, 92, 255, 0.1);
+            border: 1px solid rgba(26, 92, 255, 0.2);
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-right: 8px;
+        }
+
+        .btn-small:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-small i {
+            margin-right: 6px;
+        }
+
+        /* Overview view */
+        .vital-sign {
+            display: inline-block;
+            padding: 8px 16px;
+            background: rgba(26, 92, 255, 0.1);
+            border-radius: 30px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        #live-vitals {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+        }
+
+        /* Patient list */
+        .patient-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .patient-item {
+            padding: 16px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: var(--transition);
+            border-radius: 16px;
+        }
+
+        .patient-item:hover {
+            background: rgba(255,255,255,0.5);
+        }
+
+        .patient-item.selected {
+            background: rgba(26, 92, 255, 0.1);
+            border-left: 4px solid var(--primary);
+        }
+
+        /* Telemedicine view */
+        .video-placeholder {
+            background: #0e1e30;
+            border-radius: 28px;
+            height: 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #b2d9ff;
+            border: 1px solid #2d405b;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
+            background-image: radial-gradient(circle at 30% 40%, #1c3f5e, #0b1727);
+            background-size: cover;
+            background-position: center;
+            transition: background-image 0.3s ease;
+        }
+
+        .call-controls {
+            display: flex;
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .call-btn {
+            background: #2a4a6a;
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .call-btn:hover {
+            background: #3a5f82;
+        }
+
+        .call-btn.end {
+            background: #cc3b3b;
+        }
+
+        .call-btn.end:hover {
+            background: #a52a2a;
+        }
+
+        /* Spiritual care */
+        .faith-card {
+            border-left: 6px solid var(--spiritual-gold) !important;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .faith-card::before {
+            content: '✧';
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 2rem;
+            color: var(--spiritual-gold);
+            opacity: 0.2;
+            font-family: serif;
+        }
+
+        #faith-text {
+            font-size: 1.6rem;
+            font-weight: 400;
+            line-height: 1.4;
+            color: var(--text-primary);
+            position: relative;
+            z-index: 1;
+            font-style: italic;
+        }
+
+        /* ----- AI INTERFACE ----- */
+        .ai-dashboard {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 24px;
+            height: calc(100vh - 200px);
+            min-height: 600px;
+        }
+
+        .ai-chat-area {
+            background: var(--ai-bg);
+            border-radius: 32px;
+            border: 1px solid var(--ai-border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 30px 40px -20px black;
+            position: relative;
+        }
+
+        .ai-chat-area::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--ai-gradient);
+            opacity: 0.5;
+        }
+
+        .ai-header {
+            padding: 20px 24px;
+            background: var(--ai-surface);
+            border-bottom: 1px solid var(--ai-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ai-status {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ai-pulse {
+            width: 12px;
+            height: 12px;
+            background: var(--ai-accent);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 15px var(--ai-accent);
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.2); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .ai-model {
+            font-family: 'Fira Code', monospace;
+            color: var(--ai-text);
+            font-weight: 600;
+        }
+
+        .ai-model span {
+            color: var(--ai-accent);
+            background: var(--ai-accent-dim);
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            margin-left: 8px;
+        }
+
+        .ai-token-count {
+            color: var(--ai-accent);
+            font-size: 0.9rem;
+            font-family: 'Fira Code', monospace;
+            background: var(--ai-accent-dim);
+            padding: 4px 12px;
+            border-radius: 30px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background: linear-gradient(180deg, var(--ai-bg) 0%, var(--ai-surface) 100%);
+        }
+
+        .message {
+            display: flex;
+            gap: 16px;
+            max-width: 85%;
+            animation: messageSlide 0.3s ease;
+        }
+
+        @keyframes messageSlide {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .message.assistant {
+            align-self: flex-start;
+        }
+
+        .message-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--ai-surface-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            border: 1px solid var(--ai-border);
+            font-family: 'Fira Code', monospace;
+        }
+
+        .message.user .message-avatar {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .message.assistant .message-avatar {
+            background: var(--ai-accent-dim);
+            color: var(--ai-accent);
+            border-color: var(--ai-accent);
+        }
+
+        .message-content {
+            background: var(--ai-surface-light);
+            padding: 14px 18px;
+            border-radius: 20px;
+            border: 1px solid var(--ai-border);
+            color: var(--ai-text);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .message.user .message-content {
+            background: var(--primary);
+            border-color: var(--primary-dark);
+            color: white;
+        }
+
+        .ai-input-area {
+            padding: 20px 24px;
+            background: var(--ai-surface);
+            border-top: 1px solid var(--ai-border);
+        }
+
+        .input-wrapper {
+            display: flex;
+            gap: 12px;
+            background: var(--ai-bg);
+            border: 1px solid var(--ai-border);
+            border-radius: 40px;
+            padding: 6px 6px 6px 20px;
+            transition: var(--transition);
+        }
+
+        .input-wrapper:focus-within {
+            border-color: var(--ai-accent);
+            box-shadow: 0 0 0 3px var(--ai-accent-dim);
+        }
+
+        .input-wrapper input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--ai-text);
+            font-size: 0.95rem;
+            outline: none;
+            padding: 12px 0;
+        }
+
+        .input-wrapper input::placeholder {
+            color: var(--ai-text-dim);
+        }
+
+        .input-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .input-action-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: none;
+            background: var(--ai-surface-light);
+            color: var(--ai-text-dim);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1.1rem;
+        }
+
+        .input-action-btn:hover {
+            background: var(--ai-accent-dim);
+            color: var(--ai-accent);
+        }
+
+        .input-action-btn.send {
+            background: var(--ai-gradient);
+            color: var(--ai-bg);
+        }
+
+        .input-action-btn.send:hover {
+            transform: scale(1.05);
+            box-shadow: var(--ai-glow);
+        }
+
+        /* AI Side Panel */
+        .ai-side-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .ai-card {
+            background: var(--ai-surface);
+            border-radius: 24px;
+            border: 1px solid var(--ai-border);
+            padding: 20px;
+            box-shadow: 0 20px 30px -20px black;
+        }
+
+        .ai-card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--ai-text);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .ai-card-title i {
+            color: var(--ai-accent);
+        }
+
+        .quick-actions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .quick-action {
+            background: var(--ai-surface-light);
+            border: 1px solid var(--ai-border);
+            border-radius: 16px;
+            padding: 16px 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .quick-action:hover {
+            border-color: var(--ai-accent);
+            transform: translateY(-2px);
+            box-shadow: var(--ai-glow);
+        }
+
+        .quick-action i {
+            font-size: 1.5rem;
+            color: var(--ai-accent);
+            margin-bottom: 8px;
+        }
+
+        .quick-action span {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--ai-text);
+            font-weight: 600;
+        }
+
+        .quick-action small {
+            font-size: 0.7rem;
+            color: var(--ai-text-dim);
+        }
+
+        .analytics-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .analytics-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--ai-border);
+        }
+
+        .analytics-label {
+            color: var(--ai-text-dim);
+            font-size: 0.9rem;
+        }
+
+        .analytics-value {
+            color: var(--ai-accent);
+            font-weight: 700;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .analytics-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--ai-surface-light);
+            border-radius: 3px;
+            margin-top: 4px;
+        }
+
+        .analytics-bar-fill {
+            height: 100%;
+            background: var(--ai-gradient);
+            border-radius: 3px;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--ai-surface);
+            border: 1px solid var(--ai-accent);
+            color: var(--ai-text);
+            padding: 16px 24px;
+            border-radius: 40px;
+            box-shadow: 0 10px 30px rgba(0,255,195,0.2);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            font-weight: 500;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        footer {
+            padding: 16px 40px;
+            background: rgba(255,255,255,0.3);
+            backdrop-filter: blur(10px);
+            font-size: 0.8rem;
+            color: var(--text-soft);
+            border-top: 1px solid rgba(255,255,255,0.6);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .footer-logo-mini {
+            width: 30px;
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- AUTH SCREEN -->
+<div id="auth-screen">
+    <div class="auth-card">
+        <div class="logo-container">
+            <svg class="logo-image" viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#1a5cff; stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#4870ff; stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <text x="30" y="55" font-family="Inter" font-weight="800" font-size="48" fill="url(#logoGradient)">Skilabs</text>
+                <text x="35" y="85" font-family="Inter" font-style="italic" font-weight="400" font-size="16" fill="#3f506e">Where Science Meets the Spirit</text>
+            </svg>
+        </div>
+        <input type="text" id="ceoIn" placeholder="Your name, CEO" autofocus>
+        <button class="btn" onclick="startApp()">enter secure dashboard →</button>
+    </div>
+</div>
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+    <div class="sidebar-logo">
+        <svg class="sidebar-logo-img" viewBox="0 0 250 70" xmlns="http://www.w3.org/2000/svg">
+            <text x="20" y="40" font-family="Inter" font-weight="800" font-size="36" fill="url(#logoGradient)">Skilabs</text>
+            <text x="25" y="60" font-family="Inter" font-style="italic" font-weight="400" font-size="10" fill="#617388">Science meets the Spirit</text>
+        </svg>
+    </div>
+    
+    <div class="nav-item active" onclick="showView('v-home', this)">
+        <i class="fas fa-home"></i> Overview
+    </div>
+    <div class="nav-item" onclick="showView('v-ehr', this)">
+        <i class="fas fa-notes-medical"></i> Health Records
+    </div>
+    <div class="nav-item" onclick="showView('v-tele', this)">
+        <i class="fas fa-video"></i> Telemedicine
+    </div>
+    <div class="nav-item" onclick="showView('v-faith', this)">
+        <i class="fas fa-hands"></i> Spiritual Wellness
+    </div>
+    
+    <button class="ai-btn" onclick="showView('v-ai', this)">
+        <i class="fas fa-brain"></i> SKILABS_CORE v4.0
+    </button>
+</nav>
+
+<!-- MAIN WRAPPER -->
+<div id="main-wrapper">
+    <header>
+        <div id="greeting">Welcome, CEO</div>
+        <button class="logout-btn" onclick="location.reload()">⤿ logout</button>
+    </header>
+
+    <div class="content-area">
+        <!-- HOME VIEW -->
+        <div id="v-home" class="view-section active">
+            <h2>Enterprise overview</h2>
+            <div class="card">
+                <p style="font-size: 1.2rem;">🌐 System status · <span id="system-status" style="color:var(--primary); font-weight:700;">fully operational</span></p>
+                <p>📡 Wearable mesh: <strong id="device-count">4 devices online</strong> (Apple Watch, Biostrap, Levels)</p>
+                <p>🧬 Last sync: <span id="last-sync">just now</span> · edge inference active</p>
+                <div style="margin-top:24px; display: flex; gap: 12px; flex-wrap: wrap;">
+                    <button class="btn-small" onclick="simulateDeviceSync()"><i class="fas fa-sync-alt"></i> sync devices</button>
+                    <button class="btn-small" onclick="simulateHealthAlert()"><i class="fas fa-exclamation-triangle"></i> test alert</button>
+                </div>
+                <div id="live-vitals">
+                    <div class="vital-sign"><i class="fas fa-heartbeat" style="color:#ff6b6b;"></i> HR: 72 bpm</div>
+                    <div class="vital-sign"><i class="fas fa-heart" style="color:#1a5cff;"></i> BP: 118/78</div>
+                    <div class="vital-sign"><i class="fas fa-thermometer-half" style="color:#ffa500;"></i> Temp: 36.6°C</div>
+                    <div class="vital-sign"><i class="fas fa-lungs" style="color:#00cc99;"></i> SpO₂: 98%</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EHR VIEW -->
+        <div id="v-ehr" class="view-section">
+            <h2><i class="fas fa-notes-medical"></i> Patient records</h2>
+            <div class="card">
+                <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 250px;">
+                        <h3 style="margin-bottom: 16px;">Patient list</h3>
+                        <div class="patient-list" id="patient-list">
+                            <div class="patient-item selected" onclick="selectPatient('INN-042')">
+                                <i class="fas fa-user-circle"></i> <strong>INN-042</strong> · phase 3 trial
+                            </div>
+                            <div class="patient-item" onclick="selectPatient('PT-8872')">
+                                <i class="fas fa-user-circle"></i> <strong>PT-8872</strong> · cardiac rehab
+                            </div>
+                            <div class="patient-item" onclick="selectPatient('RS-3341')">
+                                <i class="fas fa-user-circle"></i> <strong>RS-3341</strong> · post-op monitoring
+                            </div>
+                        </div>
+                    </div>
+                    <div style="flex: 2;" id="patient-details">
+                        <p><strong>INN-042 / trial</strong> · phase 3</p>
+                        <p>❤️ BP 118/78 | HR 62 | SpO₂ 98% · temp 36.7°C</p>
+                        <p>📅 last assessment: today 09:34 (AI reviewed)</p>
+                        <p>💊 medications: Metformin 500mg, Lisinopril 10mg</p>
+                        <p>📊 adherence: 94%</p>
+                        <button class="btn-small" style="margin-top:18px;" onclick="updateEHR()"><i class="fas fa-sync-alt"></i> refresh vitals</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TELEMEDICINE VIEW -->
+        <div id="v-tele" class="view-section">
+            <h2><i class="fas fa-video"></i> Virtual consultation</h2>
+            <div class="card">
+                <div class="video-placeholder" id="video-container">
+                    <i class="fas fa-video-slash" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                    <p id="call-status">No active session</p>
+                    <div class="call-controls">
+                        <button class="call-btn" onclick="startCall()"><i class="fas fa-phone"></i> Start Session</button>
+                        <button class="call-btn end" onclick="endCall()"><i class="fas fa-phone-slash"></i> End</button>
+                    </div>
+                </div>
+                <div style="margin-top: 20px;">
+                    <p><strong>Upcoming:</strong> Dr. Aris Thorne · Cardiac Review · 14:00 EST</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SPIRITUAL WELLNESS VIEW -->
+        <div id="v-faith" class="view-section">
+            <h2><i class="fas fa-hands"></i> Spiritual Wellness</h2>
+            <div class="card faith-card">
+                <p id="faith-text">"The soul is the healer of the body, and the mind is its instrument."</p>
+                <div style="margin-top: 20px;">
+                    <button class="btn-small" onclick="newMeditation()"><i class="fas fa-leaf"></i> New Reflection</button>
+                    <button class="btn-small" onclick="notifyChaplain()"><i class="fas fa-bell"></i> Request Chaplain</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI CORE VIEW -->
+        <div id="v-ai" class="view-section">
+            <div class="ai-dashboard">
+                <div class="ai-chat-area">
+                    <div class="ai-header">
+                        <div class="ai-status">
+                            <div class="ai-pulse"></div>
+                            <div class="ai-model">SKILABS_CORE <span>v4.0.2-pro</span></div>
+                        </div>
+                        <div class="ai-token-count">LATENCY: 12ms</div>
+                    </div>
+                    <div class="chat-messages" id="chat-box">
+                        <div class="message assistant">
+                            <div class="message-avatar">⎔</div>
+                            <div class="message-content">
+                                System initialized. I am monitoring all biometric streams and spiritual sentiment. How can I assist your oversight today, CEO?
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ai-input-area">
+                        <div class="input-wrapper">
+                            <input type="text" id="ai-input" placeholder="Ask about patients, drugs, research, or spiritual guidance..." onkeypress="if(event.key === 'Enter') sendMessage()">
+                            <div class="input-actions">
+                                <button class="input-action-btn"><i class="fas fa-microphone"></i></button>
+                                <button class="input-action-btn send" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ai-side-panel">
+                    <div class="ai-card">
+                        <div class="ai-card-title"><i class="fas fa-bolt"></i> Quick Diagnostics</div>
+                        <div class="quick-actions-grid">
+                            <div class="quick-action" onclick="quickAction('vitals')">
+                                <i class="fas fa-heartbeat"></i>
+                                <span>All Vitals</span>
+                                <small>Patient Summary</small>
+                            </div>
+                            <div class="quick-action" onclick="quickAction('drugs')">
+                                <i class="fas fa-pills"></i>
+                                <span>Drug Info</span>
+                                <small>FDA Database</small>
+                            </div>
+                            <div class="quick-action" onclick="quickAction('research')">
+                                <i class="fas fa-microscope"></i>
+                                <span>Research</span>
+                                <small>PubMed</small>
+                            </div>
+                            <div class="quick-action" onclick="quickAction('spiritual')">
+                                <i class="fas fa-dove"></i>
+                                <span>Spiritual</span>
+                                <small>Guidance</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ai-card">
+                        <div class="ai-card-title"><i class="fas fa-chart-line"></i> Bio-Analytics</div>
+                        <div class="analytics-list">
+                            <div class="analytics-item">
+                                <span class="analytics-label">Knowledge Base</span>
+                                <span class="analytics-value">1,247 entries</span>
+                            </div>
+                            <div class="analytics-bar"><div class="analytics-bar-fill" style="width: 100%;"></div></div>
+                            <div class="analytics-item">
+                                <span class="analytics-label">FDA Drugs</span>
+                                <span class="analytics-value">143,562</span>
+                            </div>
+                            <div class="analytics-bar"><div class="analytics-bar-fill" style="width: 85%;"></div></div>
+                            <div class="analytics-item">
+                                <span class="analytics-label">PubMed Articles</span>
+                                <span class="analytics-value">34M+</span>
+                            </div>
+                            <div class="analytics-bar"><div class="analytics-bar-fill" style="width: 100%;"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <svg class="footer-logo-mini" viewBox="0 0 50 50">
+            <circle cx="25" cy="25" r="20" fill="none" stroke="var(--primary)" stroke-width="2" />
+            <path d="M25 15 L25 35 M15 25 L35 25" stroke="var(--primary)" stroke-width="2"/>
+        </svg>
+        <span>&copy; 2026 SkiLabs Advanced Healthcare Solutions · Neural Link Secured</span>
+    </footer>
+</div>
+
+<!-- NOTIFICATION -->
+<div id="notif" class="notification">System Alert</div>
+
+<script>
+    // ============================================
+    // SKILABS AI KNOWLEDGE BASE & API INTEGRATION
+    // ============================================
+    
+    class SkiLabsAI {
+        constructor() {
+            this.knowledgeBase = this.initializeKnowledge();
+            this.conversationHistory = [];
+            this.context = {
+                currentPatient: null,
+                lastQuery: null,
+                userRole: 'CEO'
+            };
+            
+            // API endpoints (all free!)
+            this.apis = {
+                fda: 'https://api.fda.gov',
+                pubmed: 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils',
+                rxnav: 'https://rxnav.nlm.nih.gov/REST'
+            };
+        }
+        
+        initializeKnowledge() {
+            return {
+                // Patient Records
+                patients: {
+                    'INN-042': {
+                        id: 'INN-042',
+                        demographics: { age: 67, gender: 'M', bloodType: 'O+' },
+                        conditions: [
+                            { name: 'Type 2 Diabetes', diagnosed: '2018-03-15', severity: 'moderate' },
+                            { name: 'Hypertension', diagnosed: '2019-06-22', severity: 'controlled' }
+                        ],
+                        medications: [
+                            { name: 'Metformin', dose: '500mg', frequency: 'BID' },
+                            { name: 'Lisinopril', dose: '10mg', frequency: 'daily' }
+                        ],
+                        allergies: ['Penicillin'],
+                        recentVitals: [
+                            { date: '2026-02-13', bp: '118/78', hr: 62, spo2: 98, temp: 36.7 }
+                        ],
+                        labResults: {
+                            hba1c: '7.2%',
+                            creatinine: '0.9 mg/dL'
+                        }
+                    },
+                    'PT-8872': {
+                        id: 'PT-8872',
+                        demographics: { age: 54, gender: 'F', bloodType: 'A-' },
+                        conditions: [
+                            { name: 'Coronary Artery Disease', diagnosed: '2025-08-10', severity: 'post-MI' }
+                        ],
+                        medications: [
+                            { name: 'Carvedilol', dose: '6.25mg', frequency: 'BID' },
+                            { name: 'Aspirin', dose: '81mg', frequency: 'daily' }
+                        ],
+                        allergies: ['Codeine'],
+                        recentVitals: [
+                            { date: '2026-02-13', bp: '128/82', hr: 71, spo2: 96, temp: 36.8 }
+                        ]
+                    }
+                },
+                
+                // Clinical Guidelines
+                guidelines: {
+                    hypertension: {
+                        classification: {
+                            normal: { systolic: '<120', diastolic: '<80' },
+                            elevated: { systolic: '120-129', diastolic: '<80' },
+                            stage1: { systolic: '130-139', diastolic: '80-89' },
+                            stage2: { systolic: '≥140', diastolic: '≥90' }
+                        }
+                    },
+                    diabetes: {
+                        targets: {
+                            hba1c: '<7.0%',
+                            fasting: '80-130 mg/dL'
+                        }
+                    }
+                },
+                
+                // Spiritual Care
+                spiritualCare: {
+                    quotes: [
+                        { text: "For I am the Lord who heals you.", source: "Exodus 15:26" },
+                        { text: "Peace I leave with you; my peace I give you.", source: "John 14:27" },
+                        { text: "The natural healing force within each of us is the greatest force in getting well.", source: "Hippocrates" }
+                    ],
+                    prayers: {
+                        christian: "Lord Jesus, touch our patient with Your healing hand...",
+                        muslim: "Bismillah, Allahuma rabb an-naas, adhhib al-ba's...",
+                        jewish: "Mi shebeirach avoteinu... May the One who blessed our ancestors send healing..."
+                    }
+                }
+            };
+        }
+        
+        // ========== LOCAL KNOWLEDGE BASE QUERIES ==========
+        
+        queryLocalKnowledge(query) {
+            const q = query.toLowerCase();
+            
+            // Patient queries
+            if (q.includes('inn-042')) {
+                return this.formatPatientResponse('INN-042');
+            }
+            if (q.includes('pt-8872')) {
+                return this.formatPatientResponse('PT-8872');
+            }
+            
+            // Vitals queries
+            if (q.includes('vital') || q.includes('bp') || q.includes('heart rate')) {
+                return this.getAllVitals();
+            }
+            
+            // Spiritual queries
+            if (q.includes('quote') || q.includes('inspiration')) {
+                return this.getRandomQuote();
+            }
+            if (q.includes('prayer')) {
+                return this.getPrayer(q);
+            }
+            
+            // Guidelines
+            if (q.includes('hypertension') || q.includes('blood pressure')) {
+                return this.getBPGuidelines();
+            }
+            if (q.includes('diabetes') || q.includes('hba1c')) {
+                return this.getDiabetesGuidelines();
+            }
+            
+            return null; // Not found locally, try APIs
+        }
+        
+        formatPatientResponse(patientId) {
+            const p = this.knowledgeBase.patients[patientId];
+            if (!p) return null;
+            
+            const vitals = p.recentVitals[0];
+            return `📋 **Patient ${patientId}** (${p.demographics.age}yo ${p.demographics.gender})
+            
+🩺 **Conditions:** ${p.conditions.map(c => c.name).join(', ')}
+💊 **Medications:** ${p.medications.map(m => `${m.name} ${m.dose}`).join(', ')}
+⚠️ **Allergies:** ${p.allergies.join(', ')}
+
+📊 **Current Vitals:**
+• BP: ${vitals.bp} (${this.classifyBP(vitals.bp)})
+• HR: ${vitals.hr} bpm
+• SpO₂: ${vitals.spo2}%
+• Temp: ${vitals.temp}°C
+
+📈 **Latest Labs:** ${p.labResults ? Object.entries(p.labResults).map(([k,v]) => `${k}: ${v}`).join(', ') : 'N/A'}`;
+        }
+        
+        getAllVitals() {
+            let response = "📊 **Current Patient Vitals:**\n\n";
+            for (let [id, patient] of Object.entries(this.knowledgeBase.patients)) {
+                const v = patient.recentVitals[0];
+                response += `**${id}:** BP ${v.bp} | HR ${v.hr} | SpO₂ ${v.spo2}%\n`;
+            }
+            return response;
+        }
+        
+        getRandomQuote() {
+            const quotes = this.knowledgeBase.spiritualCare.quotes;
+            const random = quotes[Math.floor(Math.random() * quotes.length)];
+            return `🕊️ "${random.text}" — ${random.source}`;
+        }
+        
+        getPrayer(query) {
+            if (query.includes('muslim')) {
+                return `🕌 **Muslim Prayer:** ${this.knowledgeBase.spiritualCare.prayers.muslim}`;
+            } else if (query.includes('jewish')) {
+                return `🕍 **Jewish Prayer:** ${this.knowledgeBase.spiritualCare.prayers.jewish}`;
+            } else {
+                return `✝️ **Christian Prayer:** ${this.knowledgeBase.spiritualCare.prayers.christian}`;
+            }
+        }
+        
+        getBPGuidelines() {
+            const g = this.knowledgeBase.guidelines.hypertension.classification;
+            return `📏 **Blood Pressure Guidelines:**
+
+**Normal:** < ${g.normal.systolic}/${g.normal.diastolic}
+**Elevated:** ${g.elevated.systolic}/${g.elevated.diastolic}
+**Stage 1:** ${g.stage1.systolic}/${g.stage1.diastolic}
+**Stage 2:** ≥ ${g.stage2.systolic}/${g.stage2.diastolic}`;
+        }
+        
+        getDiabetesGuidelines() {
+            const g = this.knowledgeBase.guidelines.diabetes.targets;
+            return `📊 **Diabetes Targets:**
+• HbA1c: ${g.hba1c}
+• Fasting Glucose: ${g.fasting}`;
+        }
+        
+        classifyBP(bp) {
+            const [sys, dia] = bp.split('/').map(Number);
+            const g = this.knowledgeBase.guidelines.hypertension.classification;
+            if (sys >= 140 || dia >= 90) return 'Stage 2';
+            if (sys >= 130 || dia >= 80) return 'Stage 1';
+            if (sys >= 120) return 'Elevated';
+            return 'Normal';
+        }
+        
+        // ========== API INTEGRATIONS (FREE) ==========
+        
+        async searchFDA(query) {
+            try {
+                // Search FDA drug database
+                const response = await fetch(
+                    `${this.apis.fda}/drug/label.json?search=` +
+                    `openfda.brand_name:${encodeURIComponent(query)}+` +
+                    `openfda.generic_name:${encodeURIComponent(query)}&limit=1`
+                );
+                
+                if (!response.ok) throw new Error('FDA API error');
+                const data = await response.json();
+                
+                if (data.results?.length > 0) {
+                    const drug = data.results[0];
+                    
+                    // Get additional info from RxNav
+                    const rxnavResponse = await fetch(
+                        `${this.apis.rxnav}/rxcui.json?name=${encodeURIComponent(query)}`
+                    );
+                    const rxnavData = await rxnavResponse.json();
+                    
+                    return {
+                        name: drug.openfda?.brand_name?.[0] || drug.openfda?.generic_name?.[0] || query,
+                        generic: drug.openfda?.generic_name?.[0] || 'N/A',
+                        purpose: drug.purpose?.[0] || 'Information not available',
+                        warnings: drug.warnings?.[0] || 'No warnings listed',
+                        dosage: drug.dosage_and_administration?.[0] || 'Follow prescription',
+                        interactions: drug.drug_interactions?.[0] || 'Consult healthcare provider',
+                        rxcui: rxnavData.idGroup?.rxnormId?.[0] || 'Unknown'
+                    };
+                }
+                return null;
+            } catch (error) {
+                console.error('FDA API Error:', error);
+                return { error: 'Unable to fetch drug information' };
+            }
+        }
+        
+        async searchPubMed(condition) {
+            try {
+                // Search for recent research
+                const searchResponse = await fetch(
+                    `${this.apis.pubmed}/esearch.fcgi?` +
+                    `db=pubmed&term=${encodeURIComponent(condition)}&retmode=json&sort=relevance&retmax=3`
+                );
+                
+                const searchData = await searchResponse.json();
+                const ids = searchData.esearchresult.idlist;
+                
+                if (ids.length === 0) {
+                    return 'No recent research found.';
+                }
+                
+                // Get details for each paper
+                const papers = await Promise.all(
+                    ids.map(async (id) => {
+                        const summaryResponse = await fetch(
+                            `${this.apis.pubmed}/esummary.fcgi?db=pubmed&id=${id}&retmode=json`
+                        );
+                        const summaryData = await summaryResponse.json();
+                        return summaryData.result[id];
+                    })
+                );
+                
+                let response = `📚 **Recent Research on ${condition}:**\n\n`;
+                papers.forEach((paper, i) => {
+                    response += `${i+1}. **${paper.title}**\n`;
+                    response += `   ${paper.authors?.map(a => a.name).slice(0, 3).join(', ')} et al.\n`;
+                    response += `   ${paper.fulljournalname} (${paper.pubdate?.substring(0, 4)})\n\n`;
+                });
+                return response;
+                
+            } catch (error) {
+                console.error('PubMed Error:', error);
+                return 'Unable to fetch research data';
+            }
+        }
+        
+        async checkInteraction(drug1, drug2) {
+            try {
+                // Get RxCUIs for both drugs
+                const getRxcui = async (drug) => {
+                    const response = await fetch(
+                        `${this.apis.rxnav}/rxcui.json?name=${encodeURIComponent(drug)}`
+                    );
+                    const data = await response.json();
+                    return data.idGroup?.rxnormId?.[0];
+                };
+                
+                const id1 = await getRxcui(drug1);
+                const id2 = await getRxcui(drug2);
+                
+                if (!id1 || !id2) {
+                    return 'Could not identify one or both drugs.';
+                }
+                
+                // Check interaction
+                const response = await fetch(
+                    `${this.apis.rxnav}/interaction/list.json?rxcuis=${id1}+${id2}`
+                );
+                
+                const data = await response.json();
+                
+                if (data.fullInteractionTypeGroup?.[0]?.fullInteractionType) {
+                    const interaction = data.fullInteractionTypeGroup[0].fullInteractionType[0];
+                    return {
+                        severity: interaction.interactionPair[0].severity,
+                        description: interaction.interactionPair[0].description,
+                        recommendation: interaction.interactionPair[0].management || 'Monitor patient'
+                    };
+                }
+                
+                return { severity: 'None', description: 'No known interaction' };
+                
+            } catch (error) {
+                console.error('Interaction Check Error:', error);
+                return { error: 'Unable to check interaction' };
+            }
+        }
+        
+        // ========== MAIN QUERY PROCESSOR ==========
+        
+        async processQuery(query) {
+            this.conversationHistory.push({ role: 'user', content: query, timestamp: new Date() });
+            
+            const q = query.toLowerCase();
+            
+            // 1. Try local knowledge base first
+            const localResponse = this.queryLocalKnowledge(query);
+            if (localResponse) {
+                this.conversationHistory.push({ role: 'assistant', content: localResponse });
+                return localResponse;
+            }
+            
+            // 2. Handle drug queries with FDA API
+            if (q.includes('what is') && (q.includes('drug') || q.includes('medication'))) {
+                const drugName = q.split('what is')[1].trim();
+                const drug = await this.searchFDA(drugName);
+                
+                if (drug && !drug.error) {
+                    const response = `💊 **${drug.name}** (Generic: ${drug.generic})\n\n` +
+                                   `🎯 **Purpose:** ${drug.purpose}\n\n` +
+                                   `⚠️ **Warnings:** ${drug.warnings}\n\n` +
+                                   `💡 **Dosage:** ${drug.dosage}\n\n` +
+                                   `🤝 **Interactions:** ${drug.interactions}`;
+                    this.conversationHistory.push({ role: 'assistant', content: response });
+                    return response;
+                }
+            }
+            
+            // 3. Handle research queries with PubMed
+            if (q.includes('research') || q.includes('studies') || q.includes('latest on')) {
+                const condition = q.replace(/research|studies|latest on|about/gi, '').trim();
+                const research = await this.searchPubMed(condition);
+                this.conversationHistory.push({ role: 'assistant', content: research });
+                return research;
+            }
+            
+            // 4. Handle drug interactions
+            if (q.includes('interaction between') || q.includes('interact')) {
+                const match = q.match(/between (\w+)\s+and\s+(\w+)/i);
+                if (match) {
+                    const [, drug1, drug2] = match;
+                    const interaction = await this.checkInteraction(drug1, drug2);
+                    
+                    if (interaction.error) {
+                        return interaction.error;
+                    } else if (interaction.severity === 'None') {
+                        return `✅ No known interaction between ${drug1} and ${drug2}.`;
+                    } else {
+                        return `⚠️ **${interaction.severity} Interaction:**\n${interaction.description}\n\n📋 **Recommendation:** ${interaction.recommendation}`;
+                    }
+                }
+            }
+            
+            // 5. Help command
+            if (q.includes('help') || q.includes('what can you do')) {
+                return this.getHelp();
+            }
+            
+            // 6. Default response
+            return `I understand you're asking about "${query}". I can help with:
+            
+• **Patient info:** "Show me INN-042" or "Vitals for PT-8872"
+• **Drug information:** "What is metformin?" or "Tell me about lisinopril"
+• **Research:** "Latest research on hypertension" or "Studies about diabetes"
+• **Interactions:** "Interaction between lisinopril and ibuprofen"
+• **Guidelines:** "Blood pressure guidelines" or "Diabetes targets"
+• **Spiritual:** "Give me an inspirational quote" or "Christian prayer"
+• **System:** "Show all vitals" or "Help"`;
+        }
+        
+        getHelp() {
+            return `🔍 **Available Commands:**
+
+**Patient Data:**
+• "Show INN-042" - Patient details
+• "Vitals for PT-8872" - Current vitals
+• "All vitals" - All patients
+
+**Drug Information:**
+• "What is metformin?" - FDA drug info
+• "Tell me about lisinopril" - Drug details
+• "Interaction between lisinopril and ibuprofen" - Check interactions
+
+**Research:**
+• "Latest research on hypertension" - PubMed articles
+• "Studies about diabetes" - Recent papers
+
+**Clinical Guidelines:**
+• "Blood pressure guidelines" - BP categories
+• "Diabetes targets" - HbA1c goals
+
+**Spiritual:**
+• "Inspirational quote" - Random wisdom
+• "Christian prayer" - Faith resources
+
+**System:**
+• "Help" - This menu`;
+        }
+    }
+
+    // ============================================
+    // UI INTEGRATION
+    // ============================================
+    
+    // Initialize AI
+    const skilabsAI = new SkiLabsAI();
+    
+    // App entry
+    function startApp() {
+        const ceoName = document.getElementById('ceoIn').value || 'CEO';
+        document.getElementById('greeting').innerText = `Welcome, CEO ${ceoName}`;
+        document.getElementById('auth-screen').style.opacity = '0';
+        setTimeout(() => {
+            document.getElementById('auth-screen').style.display = 'none';
+            document.getElementById('sidebar').style.display = 'flex';
+            document.getElementById('main-wrapper').style.display = 'flex';
+            showNotification(`Welcome, ${ceoName}. AI Core initialized.`);
+        }, 500);
+    }
+
+    // Navigation
+    function showView(viewId, element) {
+        document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
+        document.querySelectorAll('.nav-item, .ai-btn').forEach(n => n.classList.remove('active'));
+        
+        document.getElementById(viewId).classList.add('active');
+        if (element) element.classList.add('active');
+    }
+
+    // AI Message Handler
+    async function sendMessage() {
+        const input = document.getElementById('ai-input');
+        const chatBox = document.getElementById('chat-box');
+        if (!input.value.trim()) return;
+
+        // User Message
+        const userMsg = `<div class="message user"><div class="message-avatar">CEO</div><div class="message-content">${input.value}</div></div>`;
+        chatBox.innerHTML += userMsg;
+        
+        const query = input.value;
+        input.value = '';
+
+        // Show typing indicator
+        const typingIndicator = `<div class="message assistant" id="typing"><div class="message-avatar">⎔</div><div class="message-content">...</div></div>`;
+        chatBox.innerHTML += typingIndicator;
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        // Get AI response (local + API)
+        const response = await skilabsAI.processQuery(query);
+        
+        // Remove typing indicator and show response
+        document.getElementById('typing')?.remove();
+        const aiMsg = `<div class="message assistant"><div class="message-avatar">⎔</div><div class="message-content">${response.replace(/\n/g, '<br>')}</div></div>`;
+        chatBox.innerHTML += aiMsg;
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // Quick Actions
+    function quickAction(type) {
+        const input = document.getElementById('ai-input');
+        switch(type) {
+            case 'vitals':
+                input.value = "Show all vitals";
+                break;
+            case 'drugs':
+                input.value = "What is metformin?";
+                break;
+            case 'research':
+                input.value = "Latest research on hypertension";
+                break;
+            case 'spiritual':
+                input.value = "Give me an inspirational quote";
+                break;
+        }
+        sendMessage();
+    }
+
+    // UI Helpers
+    function showNotification(text) {
+        const n = document.getElementById('notif');
+        n.innerText = text;
+        n.classList.add('show');
+        setTimeout(() => n.classList.remove('show'), 3000);
+    }
+
+    // Telemedicine
+    function startCall() {
+        document.getElementById('video-container').style.backgroundImage = "url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=800&q=80')";
+        document.getElementById('call-status').innerText = "LIVE SESSION: Dr. Thorne";
+        showNotification("Call connected with Dr. Thorne");
+    }
+
+    function endCall() {
+        document.getElementById('video-container').style.backgroundImage = "radial-gradient(circle at 30% 40%, #1c3f5e, #0b1727)";
+        document.getElementById('call-status').innerText = "No active session";
+        showNotification("Call ended");
+    }
+
+    // Spiritual
+    function newMeditation() {
+        const quotes = [
+            "Silence is the sleep that nourishes wisdom.",
+            "Health is a state of complete harmony of the body, mind and spirit.",
+            "The natural healing force within each of us is the greatest force in getting well."
+        ];
+        document.getElementById('faith-text').innerText = quotes[Math.floor(Math.random()*quotes.length)];
+        showNotification("New reflection loaded");
+    }
+
+    function notifyChaplain() {
+        showNotification("🕊️ Chaplain has been notified");
+    }
+
+    // Device sync
+    function simulateDeviceSync() {
+        showNotification("Syncing wearable mesh...");
+        document.getElementById('system-status').innerText = "syncing data...";
+        setTimeout(() => {
+            document.getElementById('system-status').innerText = "fully operational";
+            document.getElementById('last-sync').innerText = "just now";
+            updateVitals();
+            showNotification("Biometric data updated successfully.");
+        }, 2000);
+    }
+
+    function simulateHealthAlert() {
+        const alerts = [
+            '⚠️ PT-8872: elevated heart rate (82 bpm)',
+            '⚠️ INN-042: missed medication dose',
+            '✅ all vitals normal'
+        ];
+        const alert = alerts[Math.floor(Math.random() * alerts.length)];
+        showNotification(alert);
+        document.getElementById('system-status').innerText = alert.includes('⚠️') ? 'attention needed' : 'fully operational';
+    }
+
+    function updateVitals() {
+        const hr = Math.floor(Math.random() * 20) + 62;
+        const sys = Math.floor(Math.random() * 20) + 110;
+        const dia = Math.floor(Math.random() * 15) + 70;
+        const temp = (Math.random() * 1.5 + 36).toFixed(1);
+        const spo2 = Math.floor(Math.random() * 4) + 95;
+        
+        document.getElementById('live-vitals').innerHTML = `
+            <div class="vital-sign"><i class="fas fa-heartbeat" style="color:#ff6b6b;"></i> HR: ${hr} bpm</div>
+            <div class="vital-sign"><i class="fas fa-heart" style="color:#1a5cff;"></i> BP: ${sys}/${dia}</div>
+            <div class="vital-sign"><i class="fas fa-thermometer-half" style="color:#ffa500;"></i> Temp: ${temp}°C</div>
+            <div class="vital-sign"><i class="fas fa-lungs" style="color:#00cc99;"></i> SpO₂: ${spo2}%</div>
+        `;
+    }
+
+    // Patient selection
+    function selectPatient(patientId) {
+        document.querySelectorAll('.patient-item').forEach(item => {
+            item.classList.remove('selected');
+            if (item.textContent.includes(patientId)) {
+                item.classList.add('selected');
+            }
+        });
+        showNotification(`Selected patient ${patientId}`);
+    }
+
+    function updateEHR() {
+        showNotification("✅ Vitals updated");
+    }
+</script>
+</body>
+</html>
